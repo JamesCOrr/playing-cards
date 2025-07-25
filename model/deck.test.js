@@ -1,5 +1,7 @@
-import Deck from './deck.js';
-import Card from './card.js';
+import Deck from './models/deck.ts';
+import Card from './models/card.ts';
+import { expect, test, describe } from 'vitest'
+
 
 describe('Default deck', () => {
     let testDeck = new Deck();

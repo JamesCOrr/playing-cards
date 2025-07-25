@@ -1,5 +1,7 @@
-import Deck from './deck.js';
-import Card from './card.js';
+import Deck from './deck.ts';
+import Card from './card.ts';
+import { expect, test, describe } from 'vitest'
+
 
 describe('Card', () => {
     test('can be initialized', () => {
