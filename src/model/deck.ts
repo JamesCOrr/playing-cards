@@ -33,6 +33,16 @@ export default class Deck {
         } 
     }
 
+    //TODO: Fix return type
+    dealCards(count: number = this.cards.length / 2): Array<Deck> {
+        const hands = [];
+        hands.push(this.cards.slice(0, count));
+        this.cards.splice(0, count);
+        hands.push(this.cards.slice(0, count));
+        this.cards.splice(0, count);
+        return hands;
+    }
+
     drawCard(): Card | undefined {
         if (this.cards.length === 0) {
             throw Error('Deck is empty');

@@ -1,5 +1,5 @@
-import Deck from './models/deck.ts';
-import Card from './models/card.ts';
+import Deck from './deck.ts';
+import Card from './card.ts';
 import { expect, test, describe } from 'vitest'
 
 
@@ -8,7 +8,11 @@ describe('Default deck', () => {
     expect(testDeck.cards.length === 52);
     test('should draw the Ace of Spades', () => {
         let drawnCard = testDeck.drawCard();
-        expect(drawnCard.suit).toBe('spades');
-        expect(drawnCard.value).toBe('A');
+        expect(drawnCard).toBeDefined();
+        if(drawnCard) {
+            expect(drawnCard.suit).toBe('spades');
+            expect(drawnCard.value).toBe('A');
+    
+        }
     });
 });

@@ -8,7 +8,7 @@ describe('Card', () => {
         let testCard = new Card('hearts', 'A');
         expect(testCard.suit).toBe('hearts');
         expect(testCard.value).toBe('A');
-        expect(testCard.printCard()).toBe('A of hearts');
+        expect(testCard.getImageFileName()).toBe('A of hearts');
 
     });
 });

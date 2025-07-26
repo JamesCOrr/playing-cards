@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Deck from './../model/deck.ts';
-import Card from './../model/card.ts';
-
+import Deck from './model/deck.ts';
+import Card from './model/card.ts';
 import './App.css'
+import ButtonLink from './components/ButtonLink.tsx';
 
 function App() {
   const [deck, setDeck] = useState(new Deck());
@@ -14,9 +12,12 @@ function App() {
       <h1>
         Playing Cards
       </h1>
-      {deck.cards.map((card, idx) => (
-        <img src={card.getImageFileName()}/>
-      ))}
+      <div className="flex-row">
+        <ButtonLink link='/war' displayText='War' />
+        <ButtonLink link='/solitaire' displayText='Solitaire' />
+        <ButtonLink link='/scoundrel' displayText='Scoundrel' />
+        <ButtonLink link='/fifty_two_card_pickup' displayText='52 Card Pickup' />
+      </div>
     </>
   )
 }
