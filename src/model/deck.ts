@@ -3,7 +3,7 @@ import Card from './card.ts';
 export default class Deck {
     cards: Array<Card>;
     
-    constructor(cards = []) {
+    constructor(cards: Array<Card> = []) {
         if(cards.length === 0) {
             this.cards = this.createDefaultDeck();
         } else {
@@ -36,9 +36,9 @@ export default class Deck {
     //TODO: Fix return type
     dealCards(count: number = this.cards.length / 2): Array<Deck> {
         const hands = [];
-        hands.push(this.cards.slice(0, count));
+        hands.push(new Deck(this.cards.slice(0, count)));
         this.cards.splice(0, count);
-        hands.push(this.cards.slice(0, count));
+        hands.push(new Deck(this.cards.slice(0, count)));
         this.cards.splice(0, count);
         return hands;
     }
@@ -48,5 +48,9 @@ export default class Deck {
             throw Error('Deck is empty');
         }
         return this.cards.pop();
+    }
+
+    addCardsToBottom(cards: Array<Card>): void {
+        this.cards.unshift(...cards);
     }
 }

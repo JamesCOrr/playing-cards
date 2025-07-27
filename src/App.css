@@ -72,8 +72,47 @@
   outline-offset: 2px;
 }
 
+.button-game {
+  display: inline-block;
+  height: 100px;
+  width: 200px;
+  padding: 12px 28px;
+  background-color: #22223b;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(34, 34, 59, 0.08);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.button-game:hover,
+.button-game:focus {
+  background-color: #4a4e69;
+  color: #f2e9e4;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(34, 34, 59, 0.15);
+  outline: none;
+}
+
+.button-game:active {
+  background-color: #22223b;
+  color: #fff;
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(34, 34, 59, 0.08);
+}
+
 .flex-row {
   display: flex;
   gap: 1rem;
+}
+
+.game-flex-row {
+  display: flex;
+  gap: 10rem;
 
 }

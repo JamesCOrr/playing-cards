@@ -1,3 +1,5 @@
+import valueMap from './valueMap.ts';
+
 export default class Card {
     suit: string;
     value: string;
@@ -13,6 +15,14 @@ export default class Card {
 
     public getValue(): string {
         return this.value;
+    }
+
+    public getNumericValue(): number|undefined {
+        return valueMap.get(this.value);
+    }
+
+    public getPrettyName(): string {
+        return `${this.value} of ${this.suit}`;
     }
 
     public getImageFileName(): string {

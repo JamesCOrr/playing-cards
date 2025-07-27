@@ -1,4 +1,3 @@
-import Deck from './deck.ts';
 import Card from './card.ts';
 import { expect, test, describe } from 'vitest'
 
@@ -6,9 +5,9 @@ import { expect, test, describe } from 'vitest'
 describe('Card', () => {
     test('can be initialized', () => {
         let testCard = new Card('hearts', 'A');
-        expect(testCard.suit).toBe('hearts');
-        expect(testCard.value).toBe('A');
-        expect(testCard.getImageFileName()).toBe('A of hearts');
-
+        expect(testCard.getSuit()).toBe('hearts');
+        expect(testCard.getValue()).toBe('A');
+        expect(testCard.getImageFileName()).toBe('./src/assets/A_of_hearts.svg');
+        expect(testCard.getNumericValue()).toBe(14);
     });
 });
