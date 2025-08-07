@@ -1,12 +1,7 @@
-import { useState } from 'react'
-import Deck from './model/deck.ts';
-import Card from './model/card.ts';
 import './App.css'
 import ButtonLink from './components/ButtonLink.tsx';
 
 function App() {
-  const [deck, setDeck] = useState(new Deck());
-
   return (
     <>
       <h1>

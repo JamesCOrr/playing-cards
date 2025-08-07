@@ -112,32 +112,37 @@ export default function War() {
 
     return (
         <>
-        <h1>War</h1>
-        <h2 id="status">{statusText}</h2>
-        <div>
-        {prisoners.filter((p) => p !== p1ActiveCard && p!= p2ActiveCard).length > 0 && <h2>Prisoners</h2>}
-        {prisoners.filter((p) => p !== p1ActiveCard && p!= p2ActiveCard).map(prisoner => (
-            <img height='70px' src={prisoner.getImageFileName()} key={prisoner.getImageFileName()} />
-        ))}
-        </div>
         <div className="game-flex-row">
             <div>
-                <h2>Opponent's Deck</h2>
-                <img src='./src/assets/red_card_back.png' height="200px" width="auto"></img>
-                <p>{[p1DeckSize]}</p>
-
                 <h2>My Deck</h2>
-                <img src='./src/assets/red_card_back.png' height="200px" width="auto"></img>
-                <p>{p2DeckSize}</p>
+                <div className="deck-container">
+                    <img src='./src/assets/red_card_back.png' height="200px" width="auto"></img>
+                    <p className="overlay-text">{p1DeckSize}</p>
+                </div>
+                <h2>Opponent's Deck</h2>
+                <div className="deck-container">
+                    <img src='./src/assets/red_card_back.png' height="200px" width="auto"></img>
+                    <p className="overlay-text">{p2DeckSize}</p>
+                </div>
+            </div>
+            <div className="button-flex-column">
+                <h1>War</h1>
+                <h2 id="status">{statusText}</h2>
+                <div>
+                    {prisoners.filter((p) => p !== p1ActiveCard && p!= p2ActiveCard).length > 0 && <h2>Prisoners</h2>}
+                    {prisoners.filter((p) => p !== p1ActiveCard && p!= p2ActiveCard).map(prisoner => (
+                        <img height='70px' src={prisoner.getImageFileName()} key={prisoner.getImageFileName()} />
+                    ))}
+                </div>
                 <button className="button-game" onClick={initiateBattle}>
                     {buttonText}
                 </button>
             </div>
             <div>
                 <h2>Opponent's Card</h2>
-                {p1ActiveCard && <img src={p1ActiveCard.getImageFileName()}></img>}
+                {p1ActiveCard && <img height="200px" width="auto" src={p1ActiveCard.getImageFileName()}></img>}
                 <h2>My Card</h2>
-                {p2ActiveCard && <img src={p2ActiveCard.getImageFileName()}></img>}
+                {p2ActiveCard && <img height="200px" width="auto" src={p2ActiveCard.getImageFileName()}></img>}
             </div>
             <div>
             </div>
