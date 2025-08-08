@@ -3,16 +3,16 @@ import Card from './card.ts';
 export default class Deck {
     cards: Array<Card>;
     
-    constructor(cards: Array<Card> = []) {
-        if(cards.length === 0) {
-            this.cards = this.createDefaultDeck();
+    constructor(gameName: string = '') {
+        if(gameName === 'scoundrel') {
+            this.cards = this.createScoundrelDeck();
         } else {
-            this.cards = cards;
+            this.cards = this.createDefaultDeck();
         }
     }
 
     createDefaultDeck(): Card[] {
-        const cards : Card[] = [];
+        const cards: Card[] = [];
         const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
         const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
 
@@ -21,6 +21,27 @@ export default class Deck {
                 cards.push(new Card(suit, value));
             }
         }
+        return cards as Card[];
+    }
+
+    createScoundrelDeck(): Card[] {
+        const cards: Card[] = [];
+        const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
+        const filteredValues = values.filter((val) => val.length < 3);
+
+        for (const suit of suits) {
+            if (suit === 'hearts' || suit === 'diamonds') {
+                for (const value of filteredValues) {
+                    cards.push(new Card(suit, value));
+                }
+            } else {
+                for (const value of values) {
+                    cards.push(new Card(suit, value));
+                }
+            }
+        }
+
         return cards as Card[];
     }
 
