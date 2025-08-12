@@ -3,11 +3,16 @@ import Card from './card.ts';
 export default class Deck {
     cards: Array<Card>;
     
-    constructor(gameName: string = '') {
+    // TODO: Consider refactoring to factory pattern
+    constructor(gameName: string = '', seedCards: Array<Card> = []) {
         if(gameName === 'scoundrel') {
             this.cards = this.createScoundrelDeck();
         } else {
-            this.cards = this.createDefaultDeck();
+            if(seedCards) {
+                this.cards = seedCards;
+            } else {
+                this.cards = this.createDefaultDeck();
+            }
         }
     }
 
@@ -54,12 +59,11 @@ export default class Deck {
         } 
     }
 
-    //TODO: Fix return type
     dealCards(count: number = this.cards.length / 2): Array<Deck> {
         const hands = [];
-        hands.push(new Deck(this.cards.slice(0, count)));
+        hands.push(new Deck('', this.cards.slice(0, count)));
         this.cards.splice(0, count);
-        hands.push(new Deck(this.cards.slice(0, count)));
+        hands.push(new Deck('', this.cards.slice(0, count)));
         this.cards.splice(0, count);
         return hands;
     }
