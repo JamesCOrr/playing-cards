@@ -89,7 +89,7 @@ export default function Scoundrel() {
                             <p className="overlay-text">{deck.cards.length}</p>
                         </div>
                     </div>
-                    <div>a
+                    <div>
                         {room.map((card) => <img onClick={() => interactWithCard(card)} height="200px" src={card.getImageFileName()}></img>)}
                     </div>
                 </div>
