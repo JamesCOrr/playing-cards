@@ -28,7 +28,6 @@ export default function Scoundrel() {
     const [statusText, setStatusText] = useState<string>('');
     const [loss, setLoss] = useState<boolean>(false);
     const [fled, setFled] = useState<boolean>(false);
-    // TODO: Use lockControls to prevent actions while modal is up
     const [lockControls, setLockControls] = useState<boolean>(false);
     const [activeMonster, setActiveMonster] = useState<Card>();
     const [drankPotion, setDrankPotion] = useState<boolean>(false);
@@ -137,14 +136,12 @@ export default function Scoundrel() {
                 </div>
                 <div>
                     <h2>Life: {life}</h2>
+                    <button onClick={() => flyYouFool()} disabled={fled || lockControls}>Flee</button>
                     <h2>Current Weapon</h2>
                     <img height="200px" src={weapon?.getImageFileName()}></img>
                     <h2>Monsters Slain with Current Weapon</h2>
                     {monstersSlain.map(card => <img height="200px" src={card.getImageFileName()}></img>)}
                 </div>
-            <div>
-                <button onClick={() => flyYouFool()} disabled={fled || lockControls}>Flee</button>
-            </div>
         </>
     );
 };
