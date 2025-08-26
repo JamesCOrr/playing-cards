@@ -8,7 +8,7 @@ export default class Deck {
         if(gameName === 'scoundrel') {
             this.cards = this.createScoundrelDeck();
         } else {
-            if(seedCards) {
+            if(seedCards.length > 0) {
                 this.cards = seedCards;
             } else {
                 this.cards = this.createDefaultDeck();
