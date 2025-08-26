@@ -23,13 +23,20 @@ export default function Scoundrel() {
     const [room, setRoom] = useState<Array<Card>>(startingRoom);
     const [life, setLife] = useState<number>(20);
     const [weapon, setWeapon] = useState<Card | null>(null);
+    const [monstersSlain, setMonstersSlain] = useState<Array<Card>>([]);
+    const [showWeaponDialog, setShowWeaponDialog] = useState<boolean>(false);
     const [statusText, setStatusText] = useState<string>('');
     const [loss, setLoss] = useState<boolean>(false);
     const [fled, setFled] = useState<boolean>(false);
+    // TODO: Use lockControls to prevent actions while modal is up
+    const [lockControls, setLockControls] = useState<boolean>(false);
+    const [activeMonster, setActiveMonster] = useState<Card>();
+    const [drankPotion, setDrankPotion] = useState<boolean>(false);
     
     useEffect(() => {
         if(room.length === 1) {
             setRoom([...room, ...drawRoom(3)]);
+            setDrankPotion(false);
             setFled(false);
         }
     }, [room]);
@@ -37,6 +44,7 @@ export default function Scoundrel() {
     useEffect(() => {
         if (life <= 0) {
             setLoss(true);
+            setLockControls(true);
         }
     }, [life]);
 
@@ -44,6 +52,7 @@ export default function Scoundrel() {
     // TODO: Add logic for loss screen
 
     const interactWithCard = (card: Card) => {
+        if (lockControls) return;
         switch (card.getScoundrelType()) {
             case 'weapon':
                 setWeapon(card);
@@ -55,14 +64,15 @@ export default function Scoundrel() {
                     setStatusText(`Fought ${card.getPrettyName()} barehanded`);
                 }
                 else {
-                    // TODO: implement choice to not use weapon
-                    // TODO: implement weapon limitations
-                    setLife(life - Math.max(0, card.getNumericValue() - weapon.getNumericValue()));
-                    setStatusText(`Fought ${card.getPrettyName()} with ${weapon.getPrettyName()}`);
+                    setActiveMonster(card);
+                    setLockControls(true);
+                    setShowWeaponDialog(true);
                 }
                 break;
             case 'potion':
-                // TODO: implement 1 potion limit per room.
+                if (drankPotion) {
+                    setStatusText('Already drank a health potion in this room, discarding');
+                }
                 setLife(Math.min(20, life + card.getNumericValue()));
                 setStatusText(`Drank health potion ${card.getPrettyName()}`);
                 break;
@@ -76,9 +86,41 @@ export default function Scoundrel() {
         deck.addCardsToBottom(room);
     }
 
+    const fightMonsterBarehanded = () => {
+        if (!activeMonster) return;
+        setShowWeaponDialog(false);
+        setLife(life - activeMonster.getNumericValue());
+        setStatusText(`Fought ${activeMonster.getPrettyName()} barehanded`);
+    }
+
+    const fightMonsterWithWeapon = () => {
+        if (!activeMonster || !weapon) return;
+        setMonstersSlain([...monstersSlain, activeMonster])
+        setLife(life - Math.max(0, activeMonster.getNumericValue() - weapon.getNumericValue()));
+        setStatusText(`Fought ${activeMonster.getPrettyName()} with ${weapon.getPrettyName()}`);
+        setShowWeaponDialog(false);
+    }
+
+    const weaponCanSlayMonster = useMemo(() => {
+        if(!activeMonster) return false;
+        if(!monstersSlain || monstersSlain.length < 1) return true;
+        return (activeMonster?.getNumericValue() < monstersSlain[monstersSlain.length-1]?.getNumericValue())
+    }, [activeMonster, monstersSlain]);
+
 
     return (
         <>
+            <dialog open={loss}>
+                <p>You have been defeated!</p>
+                <button onClick={() => location.reload()}>Try Again</button>
+            </dialog>
+            <dialog open={showWeaponDialog}>
+                <p>Fight monster</p>
+                <div className="game-flex-row">
+                    <button disabled={!weaponCanSlayMonster} onClick={fightMonsterWithWeapon}>With the {weapon?.getPrettyName()}</button>
+                    <button onClick={fightMonsterBarehanded}>Barehanded</button>
+                </div>
+            </dialog>
             <h1>Scoundrel</h1>
             <h2>{statusText}</h2>
                 <div className="game-flex-row">
@@ -97,9 +139,11 @@ export default function Scoundrel() {
                     <h2>Life: {life}</h2>
                     <h2>Current Weapon</h2>
                     <img height="200px" src={weapon?.getImageFileName()}></img>
+                    <h2>Monsters Slain with Current Weapon</h2>
+                    {monstersSlain.map(card => <img height="200px" src={card.getImageFileName()}></img>)}
                 </div>
             <div>
-                <button onClick={() => flyYouFool()} disabled={fled}>Flee</button>
+                <button onClick={() => flyYouFool()} disabled={fled || lockControls}>Flee</button>
             </div>
         </>
     );
